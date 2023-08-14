@@ -34,29 +34,39 @@ class _LoginPageState extends State<LoginPage> {
       'password': passwordController.text,
     });
 
+    print("Response Status Code: ${response.statusCode}");
+    print("Response Body: ${response.body}");
+
     if (response.statusCode == 200) {
-      // Successful login, handle the response here
       final responseData = json.decode(response.body);
 
-      // Check if the email exists in the API response
-      if (responseData['emailExists'] == true) {
-        // Email is valid, you can proceed with further logic
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Login Successful'),
-            duration: Duration(
-                seconds:
-                    2), // Duration for how long the SnackBar will be displayed
-          ),
-        );
+      if (responseData['emailExists'] != null) {
+        bool emailExists = responseData['emailExists'];
+
+        if (emailExists) {
+          // Email exists in the database
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Email exists in the database'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+
+          // Rest of your code for handling successful login
+        } else {
+          // Email is not valid or not found in the database
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Invalid email or password'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
       } else {
-        // Email is not valid or not found in the database
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Invalid email or password'),
-            duration: Duration(
-                seconds:
-                    2), // Duration for how long the SnackBar will be displayed
+            content: Text('Invalid response from server'),
+            duration: Duration(seconds: 2),
           ),
         );
       }
@@ -64,13 +74,10 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error: ${response.statusCode}'),
-          duration: Duration(
-              seconds:
-                  2), // Duration for how long the SnackBar will be displayed
+          duration: Duration(seconds: 2),
         ),
       );
       // Error occurred, handle the error here
-
     }
   }
 
@@ -162,6 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                       primary: Colors.blueGrey,
                       padding: EdgeInsets.symmetric(vertical: 16),
                     ),
+
                     child: Text(
                       'Login',
                       style: TextStyle(

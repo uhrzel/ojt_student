@@ -78,6 +78,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
       },
     );
 
+    print("Response Status Code: ${response.statusCode}");
+    print("Response Body: ${response.body}");
+
     // Handle the API response here
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -273,7 +276,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               width: 400, // Set the desired width
               child: ElevatedButton(
                 onPressed: () {
-                  // Your button's onPressed logic
+                  _registerUser();
                 },
                 child: Text(
                   'Register',
