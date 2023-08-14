@@ -1,5 +1,8 @@
+import 'dart:convert';
+import 'package:flutter/cupertino.dart'; // YearPicker is available in the Cupertino library
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,8 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, // Set this property to false
-
+      debugShowCheckedModeBanner: false,
       title: 'Registration App',
       home: RegistrationForm(),
     );
@@ -36,6 +38,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
+  String? selectedCourse;
+  String? selectedOrganization;
+
+  late DateTime _selectedDate = DateTime.now();
 
   void _registerUser() async {
     // Fetch data from the form controllers
@@ -43,7 +49,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
     String firstName = _firstNameController.text;
     String lastName = _lastNameController.text;
     String contactNumber = _contactNumberController.text;
-    String startDate = _startDateController.text;
+    String startDate = _selectedDate != null
+        ? DateFormat('yyyy-MM-dd').format(_selectedDate)
+        : '';
     String course = _courseController.text;
     String organization = _organizationController.text;
     String schoolYear = _schoolYearController.text;
@@ -85,22 +93,69 @@ class _RegistrationFormState extends State<RegistrationForm> {
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('successful registration'),
-          duration: Duration(
-              seconds:
-                  2), // Duration for how long the SnackBar will be displayed
+          content: Text('Successful registration'),
+          duration: Duration(seconds: 2),
         ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('failed registration !'),
-          duration: Duration(
-              seconds:
-                  2), // Duration for how long the SnackBar will be displayed
+          content: Text('Failed registration!'),
+          duration: Duration(seconds: 2),
         ),
       );
     }
+  }
+
+// Add this function to your _RegistrationFormState class
+  List<String> courseCodes = []; // List to store fetched course codes
+  Future<void> fetchCourseCodes() async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+            'http://192.168.254.159/ojt_rms/student/fetch_courseCode.php'),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          courseCodes = List<String>.from(data);
+        });
+      } else {
+        print('Failed to fetch course codes');
+      }
+    } catch (e) {
+      print('Error fetching course codes: $e');
+    }
+  }
+
+  // Add this function to your _RegistrationFormState class
+  List<String> organizationName = []; // List to store fetched course codes
+  Future<void> fetchOrganizationName() async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+            'http://192.168.254.159/ojt_rms/student/fetch_organizationName.php'),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          organizationName = List<String>.from(data);
+        });
+      } else {
+        print('Failed to fetch course codes');
+      }
+    } catch (e) {
+      print('Error fetching course codes: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCourseCodes();
+    fetchOrganizationName(); // Fetch course codes when the widget is initialized
   }
 
   @override
@@ -129,7 +184,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               controller: _firstNameController,
               decoration: InputDecoration(
                 labelText: 'First Name',
-                hintText: 'Enter firstName',
+                hintText: 'Enter first name',
                 prefixIcon: Icon(Icons.person),
                 border: OutlineInputBorder(),
               ),
@@ -141,7 +196,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               controller: _lastNameController,
               decoration: InputDecoration(
                 labelText: 'Last Name',
-                hintText: 'Enter your lastName',
+                hintText: 'Enter your last name',
                 prefixIcon: Icon(Icons.person),
                 border: OutlineInputBorder(),
               ),
@@ -153,7 +208,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               controller: _contactNumberController,
               decoration: InputDecoration(
                 labelText: 'Contact Number',
-                hintText: 'Enter your Contact number',
+                hintText: 'Enter your contact number',
                 prefixIcon: Icon(Icons.phone),
                 border: OutlineInputBorder(),
               ),
@@ -161,23 +216,55 @@ class _RegistrationFormState extends State<RegistrationForm> {
             SizedBox(
               height: 10,
             ),
-            TextFormField(
-              controller: _startDateController,
-              decoration: InputDecoration(
-                labelText: 'Start Date',
-                hintText: 'Enter start Date',
-                prefixIcon: Icon(Icons.calendar_month),
-                border: OutlineInputBorder(),
+            GestureDetector(
+              onTap: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: _selectedDate ?? DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2101),
+                );
+
+                if (pickedDate != null && pickedDate != _selectedDate) {
+                  setState(() {
+                    _selectedDate = pickedDate;
+                    _startDateController.text =
+                        DateFormat('yyyy-MM-dd').format(pickedDate);
+                  });
+                }
+              },
+              child: AbsorbPointer(
+                child: TextFormField(
+                  controller: _startDateController,
+                  decoration: InputDecoration(
+                    labelText: 'Start Date',
+                    hintText: 'Select start date',
+                    prefixIcon: Icon(Icons.calendar_today),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
               ),
             ),
             SizedBox(
               height: 10,
             ),
-            TextFormField(
-              controller: _courseController,
+            DropdownButtonFormField<String>(
+              value: selectedCourse,
+              onChanged: (value) {
+                setState(() {
+                  selectedCourse = value;
+                  _courseController.text = value!;
+                });
+              },
+              items: courseCodes.map((courseCode) {
+                return DropdownMenuItem<String>(
+                  value: courseCode,
+                  child: Text(courseCode),
+                );
+              }).toList(),
               decoration: InputDecoration(
                 labelText: 'Course',
-                hintText: 'Enter your Course',
+                hintText: 'Select your course',
                 prefixIcon: Icon(Icons.list_alt),
                 border: OutlineInputBorder(),
               ),
@@ -185,25 +272,57 @@ class _RegistrationFormState extends State<RegistrationForm> {
             SizedBox(
               height: 10,
             ),
-            TextFormField(
-              controller: _organizationController,
+            DropdownButtonFormField<String>(
+              value: selectedOrganization,
+              onChanged: (value) {
+                setState(() {
+                  selectedOrganization = value;
+                  _organizationController.text = value!;
+                });
+              },
+              items: organizationName.map((organizationame) {
+                return DropdownMenuItem<String>(
+                  value: organizationame,
+                  child: Text(organizationame),
+                );
+              }).toList(),
               decoration: InputDecoration(
                 labelText: 'Organization',
-                hintText: 'Enter your Organization',
-                prefixIcon: Icon(Icons.list_outlined),
+                hintText: 'Select your Organization',
+                prefixIcon: Icon(Icons.list_alt),
                 border: OutlineInputBorder(),
               ),
             ),
             SizedBox(
               height: 10,
             ),
-            TextFormField(
-              controller: _schoolYearController,
-              decoration: InputDecoration(
-                labelText: 'School Year',
-                hintText: 'Enter School Year',
-                prefixIcon: Icon(Icons.calendar_today),
-                border: OutlineInputBorder(),
+            GestureDetector(
+              onTap: () async {
+                DateTime? pickedYear = await showDatePicker(
+                  context: context,
+                  initialDate: _selectedDate ?? DateTime.now(),
+                  firstDate: DateTime(DateTime.now().year - 10),
+                  lastDate: DateTime(DateTime.now().year + 10),
+                  initialDatePickerMode: DatePickerMode.year,
+                );
+
+                if (pickedYear != null) {
+                  setState(() {
+                    _selectedDate = pickedYear;
+                    _schoolYearController.text = pickedYear.year.toString();
+                  });
+                }
+              },
+              child: AbsorbPointer(
+                child: TextFormField(
+                  controller: _schoolYearController,
+                  decoration: InputDecoration(
+                    labelText: 'School Year',
+                    hintText: 'Select school year',
+                    prefixIcon: Icon(Icons.calendar_today),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
               ),
             ),
             SizedBox(
@@ -213,7 +332,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               controller: _requiredHoursController,
               decoration: InputDecoration(
                 labelText: 'Required Hours',
-                hintText: 'Enter Required Training Hours',
+                hintText: 'Enter required training hours',
                 prefixIcon: Icon(Icons.lock_clock),
                 border: OutlineInputBorder(),
               ),
@@ -225,7 +344,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               controller: _addressController,
               decoration: InputDecoration(
                 labelText: 'Address',
-                hintText: 'Enter your Address',
+                hintText: 'Enter your address',
                 prefixIcon: Icon(Icons.home),
                 border: OutlineInputBorder(),
               ),
@@ -237,7 +356,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
-                hintText: 'Enter your Email',
+                hintText: 'Enter your email',
                 prefixIcon: Icon(Icons.email),
                 border: OutlineInputBorder(),
               ),
@@ -250,7 +369,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
-                hintText: 'Enter your Password',
+                hintText: 'Enter your password',
                 prefixIcon: Icon(Icons.lock),
                 border: OutlineInputBorder(),
               ),
@@ -273,11 +392,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
             ),
             SizedBox(
               height: 50,
-              width: 400, // Set the desired width
+              width: 400,
               child: ElevatedButton(
-                onPressed: () {
-                  _registerUser();
-                },
+                onPressed: _registerUser,
                 child: Text(
                   'Register',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
