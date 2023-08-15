@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart'; // YearPicker is available in the Cupertino library
+// YearPicker is available in the Cupertino library
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:ojt_student/verification.dart';
 
 void main() {
   runApp(MyApp());
@@ -42,6 +43,35 @@ class _RegistrationFormState extends State<RegistrationForm> {
   String? selectedOrganization;
 
   late DateTime _selectedDate = DateTime.now();
+  bool _isRegistering = false; // Track registration state
+
+  void _showVerificationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Account Created'),
+          content: Text(
+            'Account created successfully. Please check your email for verification.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => VerificationPage()),
+                );
+                // Navigate to the verification page here
+                // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage()));
+              },
+              child: Text('Proceed to Verification'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void _registerUser() async {
     // Fetch data from the form controllers
@@ -60,10 +90,58 @@ class _RegistrationFormState extends State<RegistrationForm> {
     String email = _emailController.text;
     String password = _passwordController.text;
     String confirmPassword = _confirmPasswordController.text;
+    setState(() {
+      _isRegistering = true; // Set registration state to true
+    });
+
+    bool _hasEmptyFields() {
+      return _studentIdNumberController.text.isEmpty ||
+          _firstNameController.text.isEmpty ||
+          _lastNameController.text.isEmpty ||
+          _contactNumberController.text.isEmpty ||
+          _startDateController.text.isEmpty ||
+          _courseController.text.isEmpty ||
+          _organizationController.text.isEmpty ||
+          _schoolYearController.text.isEmpty ||
+          _requiredHoursController.text.isEmpty ||
+          _addressController.text.isEmpty ||
+          _emailController.text.isEmpty ||
+          _passwordController.text.isEmpty ||
+          _confirmPasswordController.text.isEmpty;
+    }
+
+    // Check for empty fields
+    if (_hasEmptyFields()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please fill in all the required fields'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      setState(() {
+        _isRegistering = false; // Set registration state to false
+      });
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please enter a valid email address'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
 
     // Check if passwords match
     if (password != confirmPassword) {
-      // Show an error message that passwords do not match
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please match your password'),
+          duration: Duration(seconds: 2),
+        ),
+      );
       return;
     }
 
@@ -85,22 +163,45 @@ class _RegistrationFormState extends State<RegistrationForm> {
         'user_password': password,
       },
     );
+    await Future.delayed(Duration(seconds: 2)); // Delay for 2 seconds
+    setState(() {
+      _isRegistering = false;
+    });
 
     print("Response Status Code: ${response.statusCode}");
     print("Response Body: ${response.body}");
-
     // Handle the API response here
     if (response.statusCode == 200) {
+      String responseBody = response.body; // Extract the response body
+      String errorMessage = ''; // Initialize the error message variable
+
+      if (responseBody.contains('Email or Student ID Number already exists')) {
+        errorMessage = 'Email or Student ID Number already exists';
+      } else if (responseBody.contains('All fields are required')) {
+        errorMessage = 'All fields are required';
+      } else if (responseBody.contains(
+          'Account created successfully. Please check your email for verification.')) {
+        // Display the error message in the SnackBar
+        _showVerificationDialog();
+
+        return; // Exit the function since registration was successful
+      } else {
+        errorMessage = 'Something went wrong';
+      }
+
+      // Display the error message in the SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Successful registration'),
+          content: Text('Failed registration! $errorMessage'),
           duration: Duration(seconds: 2),
         ),
       );
     } else {
+      // Handle other error cases based on the status code
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed registration!'),
+          content:
+              Text('Failed registration! Error code: ${response.statusCode}'),
           duration: Duration(seconds: 2),
         ),
       );
@@ -159,251 +260,298 @@ class _RegistrationFormState extends State<RegistrationForm> {
   }
 
   @override
+  void dispose() {
+    _studentIdNumberController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _contactNumberController.dispose();
+    _startDateController.dispose();
+    _courseController.dispose();
+    _organizationController.dispose();
+    _schoolYearController.dispose();
+    _requiredHoursController.dispose();
+    _addressController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  Widget _buildLinearProgressIndicator() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 300,
+            color: Colors.grey.withOpacity(0.5),
+            child: LinearProgressIndicator(),
+          ),
+          SizedBox(height: 50), // Add some spacing
+          Text(
+            'Registering...',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Registration Form'),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _studentIdNumberController,
-              decoration: InputDecoration(
-                labelText: 'Student ID Number',
-                hintText: 'Enter your ID Number',
-                prefixIcon: Icon(Icons.numbers),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextFormField(
-              controller: _firstNameController,
-              decoration: InputDecoration(
-                labelText: 'First Name',
-                hintText: 'Enter first name',
-                prefixIcon: Icon(Icons.person),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextFormField(
-              controller: _lastNameController,
-              decoration: InputDecoration(
-                labelText: 'Last Name',
-                hintText: 'Enter your last name',
-                prefixIcon: Icon(Icons.person),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextFormField(
-              controller: _contactNumberController,
-              decoration: InputDecoration(
-                labelText: 'Contact Number',
-                hintText: 'Enter your contact number',
-                prefixIcon: Icon(Icons.phone),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            GestureDetector(
-              onTap: () async {
-                DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: _selectedDate ?? DateTime.now(),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2101),
-                );
-
-                if (pickedDate != null && pickedDate != _selectedDate) {
-                  setState(() {
-                    _selectedDate = pickedDate;
-                    _startDateController.text =
-                        DateFormat('yyyy-MM-dd').format(pickedDate);
-                  });
-                }
-              },
-              child: AbsorbPointer(
-                child: TextFormField(
-                  controller: _startDateController,
-                  decoration: InputDecoration(
-                    labelText: 'Start Date',
-                    hintText: 'Select start date',
-                    prefixIcon: Icon(Icons.calendar_today),
-                    border: OutlineInputBorder(),
+      body: _isRegistering
+          ? _buildLinearProgressIndicator() // Call the function here
+          : SingleChildScrollView(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: _studentIdNumberController,
+                    decoration: InputDecoration(
+                      labelText: 'Student ID Number',
+                      hintText: 'Enter your ID Number',
+                      prefixIcon: Icon(Icons.numbers),
+                      border: OutlineInputBorder(),
+                    ),
                   ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            DropdownButtonFormField<String>(
-              value: selectedCourse,
-              onChanged: (value) {
-                setState(() {
-                  selectedCourse = value;
-                  _courseController.text = value!;
-                });
-              },
-              items: courseCodes.map((courseCode) {
-                return DropdownMenuItem<String>(
-                  value: courseCode,
-                  child: Text(courseCode),
-                );
-              }).toList(),
-              decoration: InputDecoration(
-                labelText: 'Course',
-                hintText: 'Select your course',
-                prefixIcon: Icon(Icons.list_alt),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            DropdownButtonFormField<String>(
-              value: selectedOrganization,
-              onChanged: (value) {
-                setState(() {
-                  selectedOrganization = value;
-                  _organizationController.text = value!;
-                });
-              },
-              items: organizationName.map((organizationame) {
-                return DropdownMenuItem<String>(
-                  value: organizationame,
-                  child: Text(organizationame),
-                );
-              }).toList(),
-              decoration: InputDecoration(
-                labelText: 'Organization',
-                hintText: 'Select your Organization',
-                prefixIcon: Icon(Icons.list_alt),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            GestureDetector(
-              onTap: () async {
-                DateTime? pickedYear = await showDatePicker(
-                  context: context,
-                  initialDate: _selectedDate ?? DateTime.now(),
-                  firstDate: DateTime(DateTime.now().year - 10),
-                  lastDate: DateTime(DateTime.now().year + 10),
-                  initialDatePickerMode: DatePickerMode.year,
-                );
-
-                if (pickedYear != null) {
-                  setState(() {
-                    _selectedDate = pickedYear;
-                    _schoolYearController.text = pickedYear.year.toString();
-                  });
-                }
-              },
-              child: AbsorbPointer(
-                child: TextFormField(
-                  controller: _schoolYearController,
-                  decoration: InputDecoration(
-                    labelText: 'School Year',
-                    hintText: 'Select school year',
-                    prefixIcon: Icon(Icons.calendar_today),
-                    border: OutlineInputBorder(),
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
+                  TextFormField(
+                    controller: _firstNameController,
+                    decoration: InputDecoration(
+                      labelText: 'First Name',
+                      hintText: 'Enter first name',
+                      prefixIcon: Icon(Icons.person),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    controller: _lastNameController,
+                    decoration: InputDecoration(
+                      labelText: 'Last Name',
+                      hintText: 'Enter your last name',
+                      prefixIcon: Icon(Icons.person),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    controller: _contactNumberController,
+                    decoration: InputDecoration(
+                      labelText: 'Contact Number',
+                      hintText: 'Enter your contact number',
+                      prefixIcon: Icon(Icons.phone),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: _selectedDate ?? DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2101),
+                      );
+
+                      if (pickedDate != null && pickedDate != _selectedDate) {
+                        setState(() {
+                          _selectedDate = pickedDate;
+                          _startDateController.text =
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
+                        });
+                      }
+                    },
+                    child: AbsorbPointer(
+                      child: TextFormField(
+                        controller: _startDateController,
+                        decoration: InputDecoration(
+                          labelText: 'Start Date',
+                          hintText: 'Select start date',
+                          prefixIcon: Icon(Icons.calendar_today),
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  DropdownButtonFormField<String>(
+                    value: selectedCourse,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedCourse = value;
+                        _courseController.text = value!;
+                      });
+                    },
+                    items: courseCodes.map((courseCode) {
+                      return DropdownMenuItem<String>(
+                        value: courseCode,
+                        child: Text(courseCode),
+                      );
+                    }).toList(),
+                    decoration: InputDecoration(
+                      labelText: 'Course',
+                      hintText: 'Select your course',
+                      prefixIcon: Icon(Icons.list_alt),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  DropdownButtonFormField<String>(
+                    value: selectedOrganization,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedOrganization = value;
+                        _organizationController.text = value!;
+                      });
+                    },
+                    items: organizationName.map((organizationame) {
+                      return DropdownMenuItem<String>(
+                        value: organizationame,
+                        child: Text(organizationame),
+                      );
+                    }).toList(),
+                    decoration: InputDecoration(
+                      labelText: 'Organization',
+                      hintText: 'Select your Organization',
+                      prefixIcon: Icon(Icons.list_alt),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      DateTime? pickedYear = await showDatePicker(
+                        context: context,
+                        initialDate: _selectedDate ?? DateTime.now(),
+                        firstDate: DateTime(DateTime.now().year - 10),
+                        lastDate: DateTime(DateTime.now().year + 10),
+                        initialDatePickerMode: DatePickerMode.year,
+                      );
+
+                      if (pickedYear != null) {
+                        setState(() {
+                          _selectedDate = pickedYear;
+                          _schoolYearController.text =
+                              pickedYear.year.toString();
+                        });
+                      }
+                    },
+                    child: AbsorbPointer(
+                      child: TextFormField(
+                        controller: _schoolYearController,
+                        decoration: InputDecoration(
+                          labelText: 'School Year',
+                          hintText: 'Select school year',
+                          prefixIcon: Icon(Icons.calendar_today),
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    controller: _requiredHoursController,
+                    decoration: InputDecoration(
+                      labelText: 'Required Hours',
+                      hintText: 'Enter required training hours',
+                      prefixIcon: Icon(Icons.lock_clock),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    controller: _addressController,
+                    decoration: InputDecoration(
+                      labelText: 'Address',
+                      hintText: 'Enter your address',
+                      prefixIcon: Icon(Icons.home),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      hintText: 'Enter your email',
+                      prefixIcon: Icon(Icons.email),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      hintText: 'Enter your password',
+                      prefixIcon: Icon(Icons.lock),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    controller: _confirmPasswordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Confirm Password',
+                      hintText: 'Confirm your password',
+                      prefixIcon: Icon(Icons.lock),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  SizedBox(
+                    height: 50,
+                    width: 400,
+                    child: ElevatedButton(
+                      onPressed: _isRegistering ? null : _registerUser,
+                      child: Text(
+                        'Register',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            TextFormField(
-              controller: _requiredHoursController,
-              decoration: InputDecoration(
-                labelText: 'Required Hours',
-                hintText: 'Enter required training hours',
-                prefixIcon: Icon(Icons.lock_clock),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextFormField(
-              controller: _addressController,
-              decoration: InputDecoration(
-                labelText: 'Address',
-                hintText: 'Enter your address',
-                prefixIcon: Icon(Icons.home),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextFormField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                hintText: 'Enter your email',
-                prefixIcon: Icon(Icons.email),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextFormField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Enter your password',
-                prefixIcon: Icon(Icons.lock),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextFormField(
-              controller: _confirmPasswordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Confirm Password',
-                hintText: 'Confirm your password',
-                prefixIcon: Icon(Icons.lock),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            SizedBox(
-              height: 50,
-              width: 400,
-              child: ElevatedButton(
-                onPressed: _registerUser,
-                child: Text(
-                  'Register',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
     );
+  }
+
+  bool isValidEmail(String email) {
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return emailRegex.hasMatch(email);
   }
 }
