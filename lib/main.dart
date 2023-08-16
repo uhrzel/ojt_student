@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:ojt_student/register.dart';
+import 'package:ojt_student/dashboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,37 +39,58 @@ class _LoginPageState extends State<LoginPage> {
     print("Response Body: ${response.body}");
 
     if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);
+      String responseBody = response.body; // Extract the response body
+      String errorMessage = ''; // Initialize the error message variable
+      if (responseBody.contains('Email not found')) {
+        /*  errorMessage = 'Email not found'; */
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Email Not Found'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else if (responseBody.contains('Incorrect password')) {
+        /*  errorMessage = 'Incorrect password'; */
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Incorrect password'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else if (responseBody.contains('Please fill in all fields')) {
+        /*      errorMessage = 'Please fill in all fields'; */
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Please fill in all fields'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else if (responseBody.contains('Account not verified')) {
+        /*     errorMessage = 'Account not verified'; */
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Account not verified'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else if (responseBody.isNotEmpty) {
+        int? userId = int.tryParse(responseBody);
 
-      if (responseData['emailExists'] != null) {
-        bool emailExists = responseData['emailExists'];
-
-        if (emailExists) {
-          // Email exists in the database
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Email exists in the database'),
-              duration: Duration(seconds: 2),
+        if (userId != null) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DashboardScreen(userId: userId),
             ),
           );
-
-          // Rest of your code for handling successful login
         } else {
-          // Email is not valid or not found in the database
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Invalid email or password'),
+              content: Text('Error: Invalid response data'),
               duration: Duration(seconds: 2),
             ),
           );
         }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Invalid response from server'),
-            duration: Duration(seconds: 2),
-          ),
-        );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
