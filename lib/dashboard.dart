@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ojt_student/main.dart';
 
 class DashboardScreen extends StatelessWidget {
   final int userId;
@@ -10,6 +11,16 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Dashboard'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginPage()),
+            );
+          },
+        ),
       ),
       body: Center(
         child: Column(
