@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ojt_student/change_password.dart';
 
 class OTPVerifyScreen extends StatefulWidget {
   final String email;
@@ -53,12 +54,20 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
           ),
         );
       } else if (responsebody.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ChangePasswordScreen(
+                    responseBody: responsebody,
+                  )),
+        );
+        /*  ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Verification Complete'),
             duration: Duration(seconds: 2),
           ),
-        );
+        ); */
+
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
