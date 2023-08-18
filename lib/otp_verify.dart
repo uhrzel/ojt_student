@@ -1,56 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:ojt_student/otp_verify.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
+class OTPVerifyScreen extends StatefulWidget {
+  final String email;
+
+  OTPVerifyScreen({required this.email});
+
   @override
-  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
+  _OTPVerifyScreenState createState() => _OTPVerifyScreenState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  TextEditingController emailController = TextEditingController();
-  bool _isRegistering = false;
+class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
+  TextEditingController otpController = TextEditingController();
+  bool _isVerifying = false;
 
-  Future<void> sendVerificationEmail(String email) async {
+  Future<void> verifyOTP(String otp, String email) async {
     setState(() {
-      _isRegistering = true; // Set the flag to true before making the API call
+      _isVerifying = true;
     });
-    final url =
-        Uri.parse('http://192.168.254.159/ojt_rms/student/verify_email.php');
+
+    final url = Uri.parse('http://192.168.254.159/ojt_rms/student/otp.php');
     final response = await http.post(url, body: {
+      'otp': otp,
       'email': email,
     });
-    await Future.delayed(Duration(seconds: 2)); // Delay for 2 seconds
+
+    await Future.delayed(Duration(seconds: 2));
+
     setState(() {
-      _isRegistering = false;
+      _isVerifying = false;
     });
 
     if (response.statusCode == 200) {
       String responsebody = response.body;
       String errorMessage = '';
+
       print(response.statusCode);
       print(response.body);
 
-      if (responsebody.contains('Email not found')) {
+      if (responsebody.contains('Please fill in all fields')) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Email not found'),
+            content: Text('Please fill in all fields'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else if (responsebody.contains('Incorrect OTP')) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Incorrect OTP'),
             duration: Duration(seconds: 2),
           ),
         );
       } else if (responsebody.isNotEmpty) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => OTPVerifyScreen(email: email),
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Verification Complete'),
+            duration: Duration(seconds: 2),
           ),
         );
       }
     } else {
-      // Handle the error response, e.g., show an error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to send verification email'),
+          content: Text('Failed to verify OTP'),
           duration: Duration(seconds: 2),
         ),
       );
@@ -81,30 +94,34 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Forgot Password'),
+        title: Text('OTP Verification'),
       ),
-      body: _isRegistering
+      body: _isVerifying
           ? _buildLinearProgressIndicator() // Call the function here
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Text(
+                    'Enter the OTP sent to ${widget.email}',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(height: 20),
                   TextFormField(
-                    controller: emailController,
+                    controller: otpController,
                     decoration: InputDecoration(
-                      labelText: 'Email',
-                      hintText: 'Enter your email',
+                      labelText: 'OTP',
+                      hintText: 'Enter the OTP',
                     ),
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      String email = emailController.text;
-
-                      _isRegistering ? null : sendVerificationEmail(email);
+                      String otp = otpController.text;
+                      _isVerifying ? null : verifyOTP(otp, widget.email);
                     },
-                    child: Text('Submit'),
+                    child: Text('Verify OTP'),
                   ),
                 ],
               ),
@@ -116,6 +133,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ForgotPasswordScreen(),
+    home: OTPVerifyScreen(
+        email: 'ortegacanillo76@gmail.com'), // Pass your email here
   ));
 }
