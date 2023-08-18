@@ -102,6 +102,7 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 76, 111, 200),
       appBar: AppBar(
         title: Text('OTP Verification'),
       ),
@@ -117,11 +118,21 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
                     style: TextStyle(fontSize: 18),
                   ),
                   SizedBox(height: 20),
-                  TextFormField(
-                    controller: otpController,
-                    decoration: InputDecoration(
-                      labelText: 'OTP',
-                      hintText: 'Enter the OTP',
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white, // Padding background color
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: TextFormField(
+                      controller: otpController,
+                      decoration: InputDecoration(
+                        labelText: 'OTP',
+                        hintText: 'Enter the OTP',
+                      ),
                     ),
                   ),
                   SizedBox(height: 20),

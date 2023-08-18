@@ -90,6 +90,7 @@ class _VerificationPageState extends State<VerificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 76, 111, 200),
       appBar: AppBar(
         title: Text('Email Verification'),
       ),
@@ -99,22 +100,42 @@ class _VerificationPageState extends State<VerificationPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  labelText: 'Enter your email',
-                  border: OutlineInputBorder(),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 20,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white, // Padding background color
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: TextField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: 'Enter your email',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
               SizedBox(height: 20),
-              TextField(
-                controller: _otpController,
-                keyboardType:
-                    TextInputType.number, // Specify the keyboard type for OTP
-                decoration: InputDecoration(
-                  labelText: 'Enter OTP', // Update the label
-                  border: OutlineInputBorder(),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 20,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white, // Padding background color
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: TextField(
+                  controller: _otpController,
+                  keyboardType:
+                      TextInputType.number, // Specify the keyboard type for OTP
+                  decoration: InputDecoration(
+                    labelText: 'Enter OTP', // Update the label
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
               SizedBox(

@@ -9,6 +9,7 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 76, 111, 200),
       appBar: AppBar(
         title: Text('Dashboard'),
         leading: IconButton(
