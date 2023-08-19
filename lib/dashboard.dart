@@ -48,7 +48,8 @@ class DashboardScreen extends StatelessWidget {
               Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AttendanceScreen()),
+                MaterialPageRoute(
+                    builder: (context) => AttendanceScreen(userId: userId)),
               );
               // Navigate to Attendance screen
             }),
@@ -56,7 +57,10 @@ class DashboardScreen extends StatelessWidget {
               Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TaskScreen()),
+                MaterialPageRoute(
+                    builder: (context) => TaskScreen(
+                          userId: userId,
+                        )),
               );
               // Navigate to Task screen
             }),
@@ -64,7 +68,10 @@ class DashboardScreen extends StatelessWidget {
               Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => OrganizationScreen()),
+                MaterialPageRoute(
+                    builder: (context) => OrganizationScreen(
+                          userId: userId,
+                        )),
               );
               // Navigate to Organization screen
             }),
