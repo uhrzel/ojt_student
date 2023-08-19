@@ -486,6 +486,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     height: 10,
                   ),
                   Container(
+                    height: 50, // Set a fixed height for the dropdown container
                     padding: EdgeInsets.symmetric(
                       vertical: 10,
                       horizontal: 20,
@@ -494,12 +495,12 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       color: Colors.white, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: DropdownButtonFormField<String>(
+                    child: DropdownButton<String>(
                       value: selectedCourse,
                       onChanged: (value) {
                         setState(() {
-                          selectedCourse = value;
-                          _courseController.text = value!;
+                          selectedCourse = value!;
+                          _courseController.text = value;
                         });
                       },
                       items: courseCodes.map((courseCode) {
@@ -508,27 +509,19 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           child: Text(courseCode),
                         );
                       }).toList(),
-                      decoration: InputDecoration(
-                        labelText: 'Course',
-                        hintText: 'Select your course',
-                        labelStyle: TextStyle(color: Colors.grey),
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(Icons.list_alt),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                      ),
+                      isExpanded: true, // Allow dropdown to expand
+                      icon: Icon(Icons.arrow_drop_down), // Add dropdown icon
+                      underline: SizedBox(), // Remove default underline
+                      style: TextStyle(
+                          color: Colors.black), // Customize text color
+                      hint: Text('Select your course'), // Add a default hint
                     ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Container(
+                    height: 50, // Set a fixed height for the dropdown container
                     padding: EdgeInsets.symmetric(
                       vertical: 10,
                       horizontal: 20,
@@ -537,12 +530,12 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       color: Colors.white, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: DropdownButtonFormField<String>(
+                    child: DropdownButton<String>(
                       value: selectedOrganization,
                       onChanged: (value) {
                         setState(() {
-                          selectedOrganization = value;
-                          _organizationController.text = value!;
+                          selectedOrganization = value!;
+                          _organizationController.text = value;
                         });
                       },
                       items: organizationName.map((organizationame) {
@@ -551,21 +544,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           child: Text(organizationame),
                         );
                       }).toList(),
-                      decoration: InputDecoration(
-                        labelText: 'Organization',
-                        hintText: 'Select your Organization',
-                        labelStyle: TextStyle(color: Colors.grey),
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(Icons.list_alt),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                      ),
+                      isExpanded: true, // Allow dropdown to expand
+                      icon: Icon(Icons.arrow_drop_down), // Add dropdown icon
+                      underline: SizedBox(), // Remove default underline
+                      style: TextStyle(
+                          color: Colors.black), // Customize text color
+                      hint: Text(
+                          'Select your Organization'), // Add a default hint
                     ),
                   ),
                   SizedBox(
