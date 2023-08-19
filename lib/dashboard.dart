@@ -78,10 +78,112 @@ class DashboardScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-        ),
+      body: Column(
+        children: [
+          SizedBox(height: 20), // Add space between app bar and boxes
+          Row(
+            children: [
+              SizedBox(width: 20), // Add left margin
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(right: 10), // Add right margin
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Remaining Hours',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        '8 hours', // Replace with actual remaining hours
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(left: 10), // Add left margin
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Tasks Created',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        '5 tasks', // Replace with actual tasks count
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(width: 20), // Add right margin
+            ],
+          ),
+          SizedBox(height: 20),
+          Container(
+            width: 400,
+            margin: EdgeInsets.symmetric(
+                horizontal: 20), // Add left and right margin
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Text(
+                    'Task Assigned',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  '3 tasks assigned', // Replace with actual assigned tasks count
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
