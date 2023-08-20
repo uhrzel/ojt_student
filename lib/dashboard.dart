@@ -1,16 +1,44 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http; // Add this line
+
 import 'package:flutter/material.dart';
 import 'package:ojt_student/main.dart';
 import 'package:ojt_student/organization.dart';
 import 'package:ojt_student/attendance.dart';
 import 'package:ojt_student/task.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   final int userId;
 
   DashboardScreen({required this.userId});
 
   @override
+  _DashboardScreenState createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  late Future<Map<String, dynamic>> _futureData;
+
+  @override
+  void initState() {
+    super.initState();
+    _futureData = fetchData(widget.userId);
+  }
+
+  Future<Map<String, dynamic>> fetchData(int userId) async {
+    final response = await http.get(Uri.parse(
+        'http://192.168.254.159/ojt_rms/student/index.php?user_id=$userId'));
+
+    if (response.statusCode == 200) {
+      return Map<String, dynamic>.from(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final userId = widget.userId; // Define userId here
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 76, 111, 200),
       appBar: AppBar(
@@ -85,112 +113,135 @@ class DashboardScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 20), // Add space between app bar and boxes
-          Row(
-            children: [
-              SizedBox(width: 20), // Add left margin
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(right: 10), // Add right margin
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Remaining Hours',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        '8 hours', // Replace with actual remaining hours
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(left: 10), // Add left margin
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Tasks Created',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        '5 tasks', // Replace with actual tasks count
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(width: 20), // Add right margin
-            ],
-          ),
-          SizedBox(height: 20),
-          Container(
-            width: 400,
-            margin: EdgeInsets.symmetric(
-                horizontal: 20), // Add left and right margin
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 5,
-                  offset: Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: _futureData,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            final remainingHours = snapshot.data?['remaining_hours'];
+            final tasksCreated = snapshot.data?['total_tasks'];
+            final assignedTask =
+                snapshot.data?['assigned_task'] as List<dynamic>;
+
+            return Column(
               children: [
-                Center(
-                  child: Text(
-                    'Task Assigned',
-                    style: TextStyle(fontSize: 18),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    SizedBox(width: 20),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(right: 10),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Remaining Hours',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              '$remainingHours hours', // Display remaining hours
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Tasks Created',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              '$tasksCreated tasks', // Display tasks created
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 20),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Container(
+                  width: 400,
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Text(
+                          'Task Assigned',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: assignedTask
+                            .map((task) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 30),
+                                  child: Text(
+                                    '$task', // Display each assigned task
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 10),
-                Text(
-                  '3 tasks assigned', // Replace with actual assigned tasks count
-                  style: TextStyle(fontSize: 16),
-                ),
               ],
-            ),
-          ),
-        ],
+            );
+          }
+        },
       ),
     );
   }
