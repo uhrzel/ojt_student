@@ -123,8 +123,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           } else {
             final remainingHours = snapshot.data?['remaining_hours'];
             final tasksCreated = snapshot.data?['total_tasks'];
-            final assignedTask =
-                snapshot.data?['assigned_task'] as List<dynamic>;
+            final assignedTaskValues = snapshot.data?['assigned_task_values'];
+            final assignedTaskDescription =
+                snapshot.data?['assigned_task_description'];
+            print(assignedTaskDescription);
 
             return Column(
               children: [
@@ -137,7 +139,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         margin: EdgeInsets.only(right: 10),
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.blueAccent[100],
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
@@ -152,7 +154,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           children: [
                             Text(
                               'Remaining Hours',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10),
                             Text(
@@ -168,7 +171,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         margin: EdgeInsets.only(left: 10),
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.blueAccent[100],
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
@@ -183,7 +186,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           children: [
                             Text(
                               'Tasks Created',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10),
                             Text(
@@ -203,7 +207,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.blueAccent[100],
                     borderRadius: BorderRadius.circular(8),
                     boxShadow: [
                       BoxShadow(
@@ -219,25 +223,52 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Center(
                         child: Text(
                           'Task Assigned',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ),
                       SizedBox(height: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: assignedTask
-                            .map((task) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 30),
-                                  child: Text(
-                                    '$task', // Display each assigned task
-                                    style: TextStyle(fontSize: 16),
+                      for (int i = 0; i < assignedTaskValues.length; i++)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'Task Name: ',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ))
-                            .toList(),
-                      ),
+                                ),
+                                Text(
+                                  assignedTaskValues[i],
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            Wrap(
+                              alignment: WrapAlignment.start,
+                              children: [
+                                Text(
+                                  'Description: ',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  assignedTaskDescription[i],
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20), // Space between lines
+                          ],
+                        ),
                     ],
                   ),
-                ),
+                )
               ],
             );
           }
