@@ -26,8 +26,6 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
       'email': email,
     });
 
-    await Future.delayed(Duration(seconds: 2));
-
     setState(() {
       _isVerifying = false;
     });

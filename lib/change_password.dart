@@ -36,7 +36,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       'password': password,
     });
 
-    await Future.delayed(Duration(seconds: 2));
+
 
     if (response.statusCode == 200) {
       String responsebody = response.body;

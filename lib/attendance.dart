@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:ojt_student/dashboard.dart';
 import 'package:ojt_student/main.dart';
 import 'package:ojt_student/organization.dart';
-import 'package:ojt_student/attendance.dart';
 import 'package:ojt_student/task.dart';
+import 'package:ojt_student/attendance_scanner.dart';
 
 class AttendanceScreen extends StatelessWidget {
   final int userId; // Add userId parameter
@@ -95,8 +95,52 @@ class AttendanceScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Center(
-        child: Text('Attendance Screen Content'),
+      body: Column(
+        children: [
+          Spacer(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildTimeOption('AM', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QRCodeScannerScreen(),
+                      ),
+                    );
+                  }),
+                  SizedBox(width: 20),
+                  _buildTimeOption('PM', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QRCodeScannerScreen(),
+                      ),
+                    );
+                  }),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTimeOption(String time, VoidCallback onTap) {
+    return ElevatedButton(
+      onPressed: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0), // Increased padding
+        child: Text(
+          time,
+          style: TextStyle(
+              fontSize: 30, fontWeight: FontWeight.bold), // Larger text size
+        ),
       ),
     );
   }
