@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http; // Import the http package
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:http/http.dart' as http;
 
 class QRCodeScannerScreenMorning extends StatefulWidget {
   @override
@@ -19,32 +19,17 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreenMorning> {
     super.dispose();
   }
 
-  Future<void> sendAttendance(
-      String attendanceLog,
-      String studentId,
-      String attendanceDate,
-      String attendanceTime,
-      String coordinatorId,
-      String organizationId) async {
-    final apiUrl =
-        'http://192.168.254.159/ojt_rms/student/attendance_morning_create.php'; // Replace with your API endpoint
-    final uri = Uri.https(apiUrl, '', {
-      'attendance_log': attendanceLog,
-      'student_id': studentId,
-      'attendance_date': attendanceDate,
-      'attendance_time': attendanceTime,
-      'coordinator_id': coordinatorId,
-      'organization_id': organizationId,
-    });
-
-    final response = await http.get(uri);
-
+  void sendAttendanceData(String attendanceData) async {
+    final url = Uri.parse(
+        'http://192.168.254.159/ojt_rms/student/attendance_afternoon_create.php'); // Replace with your API URL
+    final response = await http.get(url); // Make a GET request to your API
     if (response.statusCode == 200) {
-      // Handle successful response
+      print(response.statusCode);
+      // Handle the API response here
       print(response.body);
     } else {
-      // Handle error response
-      print('Failed to send attendance');
+      // Handle error
+      print('Failed to send attendance data');
     }
   }
 
@@ -64,9 +49,8 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreenMorning> {
           controller.scannedDataStream.listen((scanData) {
             if (!isScanned && scanData != null) {
               isScanned = true;
-              // Send attendance data to the API
-              sendAttendance(
-                  'Morning', '1', '2023-08-17', '10:00:00', '1', '1');
+              // Send the scanned data to the API
+              sendAttendanceData(scanData.code ?? '');
               // Display the scanned data using a dialog
               showDialog(
                 context: context,
