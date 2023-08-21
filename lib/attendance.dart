@@ -5,7 +5,8 @@ import 'package:ojt_student/dashboard.dart';
 import 'package:ojt_student/main.dart';
 import 'package:ojt_student/organization.dart';
 import 'package:ojt_student/task.dart';
-import 'package:ojt_student/attendance_scanner.dart';
+import 'package:ojt_student/attendance_scanner_morning.dart';
+import 'package:ojt_student/attendance_scanner_afternoon.dart';
 
 class AttendanceScreen extends StatelessWidget {
   final int userId; // Add userId parameter
@@ -109,7 +110,7 @@ class AttendanceScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => QRCodeScannerScreen(),
+                        builder: (context) => QRCodeScannerScreenMorning(),
                       ),
                     );
                   }),
@@ -118,7 +119,7 @@ class AttendanceScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => QRCodeScannerScreen(),
+                        builder: (context) => QRCodeScannerScreenAfternoon(),
                       ),
                     );
                   }),
