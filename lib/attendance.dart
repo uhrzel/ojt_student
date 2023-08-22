@@ -176,7 +176,89 @@ class AttendanceScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Spacer(),
+          FutureBuilder<Map<String, dynamic>>(
+            future: _futureData,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text(
+                  'Error loading user data',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                );
+              } else {
+                // Extract attendance list from snapshot data
+                final attendanceList = snapshot.data?['attendance'] ?? [];
+                final firstname = snapshot.data?['first_name'];
+                final lastname = snapshot.data?['last_name'];
+                return Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        for (int index = 0;
+                            index < attendanceList.length;
+                            index++)
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            padding: EdgeInsets.all(10),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.blueAccent[100],
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 5,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '$firstname $lastname',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  'Time in: ${attendanceList[index]['attendance_time_in']}',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  'Time out: ${attendanceList[index]['attendance_time_out']}',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  'Date: ${attendanceList[index]['attendance_date']}',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        SizedBox(
+                            height: 20), // Add additional spacing at the bottom
+                      ],
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -188,7 +270,8 @@ class AttendanceScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => QRCodeScannerScreenMorning(userId: userId),
+                        builder: (context) =>
+                            QRCodeScannerScreenMorning(userId: userId),
                       ),
                     );
                   }),
