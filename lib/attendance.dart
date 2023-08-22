@@ -15,7 +15,7 @@ class AttendanceScreen extends StatelessWidget {
   late Future<Map<String, dynamic>> _futureData;
   final int userId; // Add userId parameter
 
-  AttendanceScreen({required this.userId}); 
+  AttendanceScreen({required this.userId});
   // Constructor
   Future<Map<String, dynamic>> fetchData(int userId) async {
     final response = await http.get(Uri.parse(
@@ -30,7 +30,7 @@ class AttendanceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     final _futureData = fetchData(userId); // Initialize _futureData
+    final _futureData = fetchData(userId); // Initialize _futureData
 
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 76, 111, 200),
@@ -188,7 +188,7 @@ class AttendanceScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => QRCodeScannerScreenMorning(),
+                        builder: (context) => QRCodeScannerScreenMorning(userId: userId),
                       ),
                     );
                   }),
@@ -197,7 +197,8 @@ class AttendanceScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => QRCodeScannerScreenAfternoon(),
+                        builder: (context) =>
+                            QRCodeScannerScreenAfternoon(userId: userId),
                       ),
                     );
                   }),
