@@ -42,12 +42,24 @@ class Task {
 }
 
 class _TaskScreenState extends State<TaskScreen> {
+  late Future<Map<String, dynamic>> _futureData;
   List<Task> tasks = []; // List to store tasks
   bool showTextFields = false; // Flag to control text field visibility
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
   TextEditingController taskNameController = TextEditingController();
   TextEditingController taskDescriptionController = TextEditingController();
+
+  Future<Map<String, dynamic>> fetchData(int userId) async {
+    final response = await http.get(Uri.parse(
+        'http://192.168.254.159/ojt_rms/student/index.php?user_id=$userId'));
+
+    if (response.statusCode == 200) {
+      return Map<String, dynamic>.from(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
 
   Future<void> createTask() async {
     final apiUrl =
@@ -186,6 +198,9 @@ class _TaskScreenState extends State<TaskScreen> {
                     ?.show(); // Close the dialog after task creation
                 Navigator.pop(context);
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+              ),
               child: Text("Create Task"),
             ),
             ElevatedButton(
@@ -194,6 +209,9 @@ class _TaskScreenState extends State<TaskScreen> {
                 Navigator.pop(context);
                 // Close the dialog without creating a task
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+              ),
               child: Text("Cancel"),
             ),
           ],
@@ -254,6 +272,7 @@ class _TaskScreenState extends State<TaskScreen> {
   @override
   void initState() {
     super.initState();
+    _futureData = fetchData(widget.userId);
     fetchTasks(); // Fetch tasks when the screen is loaded
   }
 
@@ -262,7 +281,7 @@ class _TaskScreenState extends State<TaskScreen> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 76, 111, 200),
       appBar: AppBar(
-        title: Text('TaskScreen'),
+        title: Text('My Task'),
       ),
       drawer: Drawer(
         child: ListView(
@@ -272,20 +291,81 @@ class _TaskScreenState extends State<TaskScreen> {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage(
-                        'assets/images/student.png'), // Replace with actual user image
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'User ID: ${widget.userId}',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage(
+                          'assets/images/student.png'), // Replace with actual user image
+                    ),
+                    SizedBox(height: 10),
+                    FutureBuilder<Map<String, dynamic>>(
+                      future: _futureData,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text(
+                            'Error loading user data',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          );
+                        } else {
+                          final userEmail = snapshot.data?['email'];
+                          final firstname = snapshot.data?['first_name'];
+                          final lastname = snapshot.data?['last_name'];
+                          return Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 3,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  '$firstname $lastname',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 20),
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 3,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  '$userEmail',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             _buildListTile('Home', () {
@@ -353,6 +433,9 @@ class _TaskScreenState extends State<TaskScreen> {
                 itemCount: tasks.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
+                    color: Colors
+                        .teal, // Set the desired background color for the card
+
                     elevation: 3,
                     margin: EdgeInsets.symmetric(vertical: 8),
                     child: ListTile(
@@ -379,6 +462,7 @@ class _TaskScreenState extends State<TaskScreen> {
                     _showCreateTaskModal();
                   },
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal,
                     padding: EdgeInsets.symmetric(vertical: 12),
                   ),
                   child: Text(

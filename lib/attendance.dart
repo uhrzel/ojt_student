@@ -1,5 +1,7 @@
 // AttendanceScreen.dart
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:ojt_student/dashboard.dart';
 import 'package:ojt_student/main.dart';
@@ -7,14 +9,29 @@ import 'package:ojt_student/organization.dart';
 import 'package:ojt_student/task.dart';
 import 'package:ojt_student/attendance_scanner_morning.dart';
 import 'package:ojt_student/attendance_scanner_afternoon.dart';
+import 'package:http/http.dart' as http;
 
 class AttendanceScreen extends StatelessWidget {
+  late Future<Map<String, dynamic>> _futureData;
   final int userId; // Add userId parameter
 
-  AttendanceScreen({required this.userId}); // Constructor
+  AttendanceScreen({required this.userId}); 
+  // Constructor
+  Future<Map<String, dynamic>> fetchData(int userId) async {
+    final response = await http.get(Uri.parse(
+        'http://192.168.254.159/ojt_rms/student/index.php?user_id=$userId'));
+
+    if (response.statusCode == 200) {
+      return Map<String, dynamic>.from(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+     final _futureData = fetchData(userId); // Initialize _futureData
+
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 76, 111, 200),
       appBar: AppBar(
@@ -28,20 +45,81 @@ class AttendanceScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage(
-                        'assets/images/student.png'), // Replace with actual user image
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'User ID: $userId',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage(
+                          'assets/images/student.png'), // Replace with actual user image
+                    ),
+                    SizedBox(height: 10),
+                    FutureBuilder<Map<String, dynamic>>(
+                      future: _futureData,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text(
+                            'Error loading user data',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          );
+                        } else {
+                          final userEmail = snapshot.data?['email'];
+                          final firstname = snapshot.data?['first_name'];
+                          final lastname = snapshot.data?['last_name'];
+                          return Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 3,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  '$firstname $lastname',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 20),
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 3,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  '$userEmail',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             _buildListTile('Home', () {
@@ -106,7 +184,7 @@ class AttendanceScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildTimeOption('AM', () {
+                  _buildTimeOption('AM', Colors.teal, () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -115,7 +193,7 @@ class AttendanceScreen extends StatelessWidget {
                     );
                   }),
                   SizedBox(width: 20),
-                  _buildTimeOption('PM', () {
+                  _buildTimeOption('PM', Colors.teal, () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -132,9 +210,13 @@ class AttendanceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTimeOption(String time, VoidCallback onTap) {
+  Widget _buildTimeOption(
+      String time, Color backgroundColor, VoidCallback onTap) {
     return ElevatedButton(
       onPressed: onTap,
+      style: ElevatedButton.styleFrom(
+        primary: backgroundColor, // Set the background color of the button
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16.0), // Increased padding
         child: Text(

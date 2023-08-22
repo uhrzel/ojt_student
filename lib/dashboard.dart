@@ -1,6 +1,5 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http; // Add this line
-
+import 'package:http/http.dart' as http; // Add this line=
 import 'package:flutter/material.dart';
 import 'package:ojt_student/main.dart';
 import 'package:ojt_student/organization.dart';
@@ -52,20 +51,81 @@ class _DashboardScreenState extends State<DashboardScreen> {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage(
-                        'assets/images/student.png'), // Replace with actual user image
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'User ID: $userId',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage(
+                          'assets/images/student.png'), // Replace with actual user image
+                    ),
+                    SizedBox(height: 10),
+                    FutureBuilder<Map<String, dynamic>>(
+                      future: _futureData,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text(
+                            'Error loading user data',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          );
+                        } else {
+                          final userEmail = snapshot.data?['email'];
+                          final firstname = snapshot.data?['first_name'];
+                          final lastname = snapshot.data?['last_name'];
+                          return Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 3,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  '$firstname $lastname',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 20),
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 3,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  '$userEmail',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             _buildListTile('Home', () {
@@ -124,9 +184,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             final remainingHours = snapshot.data?['remaining_hours'];
             final tasksCreated = snapshot.data?['total_tasks'];
             final assignedTaskValues = snapshot.data?['assigned_task_values'];
-            final assignedTaskDescription =
-                snapshot.data?['assigned_task_description'];
-            print(assignedTaskDescription);
+            final assignedTaskCreated = snapshot.data?['assigned_task_created'];
+            // Assuming this field is in your API response
 
             return Column(
               children: [
@@ -136,10 +195,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     SizedBox(width: 20),
                     Expanded(
                       child: Container(
-                        margin: EdgeInsets.only(right: 10),
-                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.only(right: 5),
+                        padding: EdgeInsets.all(15),
                         decoration: BoxDecoration(
-                          color: Colors.blueAccent[100],
+                          color: Colors.teal,
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
@@ -150,17 +209,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ],
                         ),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment
+                              .center, // Center align the content vertically
+                          crossAxisAlignment: CrossAxisAlignment
+                              .center, // Center align the content horizontally
+
                           children: [
                             Text(
-                              'Remaining Hours',
+                              '$remainingHours',
                               style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                             SizedBox(height: 10),
                             Text(
-                              '$remainingHours hours', // Display remaining hours
-                              style: TextStyle(fontSize: 16),
+                              'REMAINING HOURS',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
@@ -168,10 +238,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                     Expanded(
                       child: Container(
-                        margin: EdgeInsets.only(left: 10),
-                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.only(right: 5),
+                        padding: EdgeInsets.all(15),
                         decoration: BoxDecoration(
-                          color: Colors.blueAccent[100],
+                          color: Colors.teal,
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
@@ -182,17 +252,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ],
                         ),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment
+                              .center, // Center align the content vertically
+                          crossAxisAlignment: CrossAxisAlignment
+                              .center, // Center align the content horizontally
+
                           children: [
                             Text(
-                              'Tasks Created',
+                              '$tasksCreated', // Display tasks created
                               style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                             SizedBox(height: 10),
                             Text(
-                              '$tasksCreated tasks', // Display tasks created
-                              style: TextStyle(fontSize: 16),
+                              'TASK CREATED',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
@@ -204,10 +285,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 SizedBox(height: 20),
                 Container(
                   width: 400,
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: EdgeInsets.symmetric(horizontal: 2),
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.blueAccent[100],
+                    color: Colors.teal,
                     borderRadius: BorderRadius.circular(8),
                     boxShadow: [
                       BoxShadow(
@@ -224,48 +305,52 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         child: Text(
                           'Task Assigned',
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 20),
                       for (int i = 0; i < assignedTaskValues.length; i++)
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Task Name: ',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.blueAccent[100],
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
                                   ),
-                                ),
-                                Text(
-                                  assignedTaskValues[i],
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                            Wrap(
-                              alignment: WrapAlignment.start,
-                              children: [
-                                Text(
-                                  'Description: ',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    assignedTaskValues[i],
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  assignedTaskDescription[i],
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
+                                  SizedBox(width: 10),
+                                  Text(
+                                    '- ${assignedTaskCreated[i]}', // Display task creation time
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            SizedBox(height: 20), // Space between lines
+                            SizedBox(height: 10), // Add a space between rows
                           ],
-                        ),
+                        )
                     ],
                   ),
                 )
