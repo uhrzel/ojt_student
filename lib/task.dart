@@ -361,6 +361,12 @@ class _TaskScreenState extends State<TaskScreen> {
             ),
             _buildListTile('Home', Icons.home, 16, () {
               Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        DashboardScreen(userId: widget.userId)),
+              );
               // Navigate to Home screen
             }),
             _buildListTile('Attendance', Icons.calendar_today, 16, () {
