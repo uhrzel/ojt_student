@@ -420,31 +420,49 @@ class _TaskScreenState extends State<TaskScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
-                  child: ListView.builder(
-                itemCount: tasks.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    color: Colors
-                        .teal, // Set the desired background color for the card
+                child: ListView.builder(
+                  itemCount: tasks.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent[100],
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Card(
+                        color: Colors
+                            .transparent, // Set the background color to transparent
 
-                    elevation: 3,
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    child: ListTile(
-                      title: Text(
-                        tasks[index].taskName,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        elevation:
+                            0, // No elevation for the card since shadow is provided by the container
+                        child: ListTile(
+                          title: Text(
+                            tasks[index].taskName,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          subtitle: Text(tasks[index].taskDescription, style: TextStyle(color: Colors.white)),
+                          trailing: IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                            onPressed: () {
+                              _showDeleteConfirmationDialog(
+                                  tasks[index].taskId);
+                            },
+                          ),
+                        ),
                       ),
-                      subtitle: Text(tasks[index].taskDescription),
-                      trailing: IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          _showDeleteConfirmationDialog(tasks[index].taskId);
-                        },
-                      ),
-                    ),
-                  );
-                },
-              )),
+                    );
+                  },
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: 100.0), // Adjust horizontal padding

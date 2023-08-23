@@ -159,8 +159,123 @@ class OrganizationScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Center(
-        child: Text('Organization Screen Content'),
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: _futureData,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'Error loading organization data',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            );
+          } else {
+            final organization = snapshot.data?['organization'];
+            final organizationName = organization['organization_name'];
+            final organizationDescription =
+                organization['organization_description'];
+            final ornazationContactNumber =
+                organization['organization_contact_number'];
+            final organizationAddress = organization['organization_address'];
+            final organizationEmail = organization['organization_email'];
+            final coordinators = snapshot.data?['coordinator'];
+            final coordinatorFirstName =
+                coordinators.isNotEmpty ? coordinators[0]['first_name'] : 'N/A';
+            final coordinatorLastName =
+                coordinators.isNotEmpty ? coordinators[0]['last_name'] : 'N/A';
+            final student = snapshot.data?['user'];
+            final studentFirstName = student['first_name'];
+            final studentLastName = student['last_name'];
+            final studentSY = student['school_year'];
+            final studentContactNumber = student['contact_number'];
+            final studentAddress = student['address'];
+            final course = snapshot.data?['course'];
+            final courseCode = course['course_code'];
+
+            return SingleChildScrollView(
+              child: Center(
+                child: Container(
+                  margin: EdgeInsets.all(
+                      10), // Add some margin around the container
+                  decoration: BoxDecoration(
+                    /* color: Color.fromARGB(255, 76, 111, 200), */
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 10,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      buildCardListTile(
+                        icon: Icons.school,
+                        title: 'Student name:',
+                        subtitle: '$studentFirstName $studentLastName',
+                      ),
+                      buildCardListTile(
+                        icon: Icons.list_alt_rounded,
+                        title: 'Course:',
+                        subtitle: courseCode,
+                      ),
+                      buildCardListTile(
+                        icon: Icons.calendar_today,
+                        title: 'Schol year:',
+                        subtitle: studentSY,
+                      ),
+                      buildCardListTile(
+                        icon: Icons.home_filled,
+                        title: 'Address:',
+                        subtitle: studentAddress,
+                      ),
+                      buildCardListTile(
+                        icon: Icons.contact_phone,
+                        title: 'Contact Nmber:',
+                        subtitle: studentContactNumber,
+                      ),
+                      buildCardListTile(
+                        icon: Icons.man,
+                        title: 'Coordinator Name:',
+                        subtitle: coordinators.isNotEmpty
+                            ? '${coordinatorFirstName} ${coordinatorLastName}'
+                            : 'No Coordinator Assigned',
+                      ),
+                      buildCardListTile(
+                        icon: Icons.corporate_fare_outlined,
+                        title: 'Organization:',
+                        subtitle: organizationName,
+                      ),
+                      buildCardListTile(
+                        icon: Icons.email_outlined,
+                        title: 'email:',
+                        subtitle: organizationEmail,
+                      ),
+                      buildCardListTile(
+                        icon: Icons.description_rounded,
+                        title: 'Description:',
+                        subtitle: organizationDescription,
+                      ),
+                      buildCardListTile(
+                        icon: Icons.maps_home_work_sharp,
+                        title: 'Address:',
+                        subtitle: organizationAddress,
+                      ),
+                      buildCardListTile(
+                        icon: Icons.phone_callback_rounded,
+                        title: 'Contact Number:',
+                        subtitle: ornazationContactNumber,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+        },
       ),
     );
   }
@@ -184,6 +299,42 @@ class OrganizationScreen extends StatelessWidget {
             style: TextStyle(fontSize: fontSize), // Set the font size
           ), // Display the title without Center widget
           onTap: onTap,
+        ),
+      ),
+    );
+  }
+
+  Widget buildCardListTile(
+      {required IconData icon,
+      required String title,
+      required String subtitle}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      child: Card(
+        color: Colors.blueAccent[100],
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: ListTile(
+          leading: Icon(
+            icon,
+            color: Colors.white,
+          ), // Icon as the leading widget
+          title: Text(
+            title,
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.white,
+            ), // Font size and bold title
+          ),
+          subtitle: Text(
+            subtitle,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+            ), // Font size for subtitle
+          ),
         ),
       ),
     );
