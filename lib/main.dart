@@ -157,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                               Container(
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                  color: Colors.blue,
+                                  color: Colors.blueAccent[100],
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
                                     BoxShadow(
@@ -187,25 +187,22 @@ class _LoginPageState extends State<LoginPage> {
                             horizontal: 20,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white, // Padding background color
+                            color: Colors.teal,
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: TextFormField(
                             controller: emailController,
+                            style: TextStyle(color: Colors.white),
                             decoration: InputDecoration(
                               hintText: 'Enter email',
                               labelText: 'Email',
-                              hintStyle: TextStyle(color: Colors.white),
+                              prefixIcon: Icon(
+                                Icons.email,
+                                color: Colors.black,
+                              ),
                               labelStyle: TextStyle(color: Colors.grey),
-                              prefixIcon: Icon(Icons.email),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
                             ),
                           ),
                         ),
@@ -216,26 +213,23 @@ class _LoginPageState extends State<LoginPage> {
                             horizontal: 20,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white, // Padding background color
+                            color: Colors.teal,
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: TextFormField(
                             controller: passwordController,
                             obscureText: true,
+                            style: TextStyle(color: Colors.white),
                             decoration: InputDecoration(
                               hintText: 'Enter password',
                               labelText: 'Password',
-                              hintStyle: TextStyle(color: Colors.white),
+                              prefixIcon: Icon(
+                                Icons.lock,
+                                color: Colors.black,
+                              ),
                               labelStyle: TextStyle(color: Colors.grey),
-                              prefixIcon: Icon(Icons.lock),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
                             ),
                           ),
                         ),

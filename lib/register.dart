@@ -316,7 +316,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: TextFormField(
@@ -325,16 +325,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         labelText: 'Student ID Number',
                         hintText: 'Enter your ID Number',
                         labelStyle: TextStyle(color: Colors.grey),
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(Icons.numbers),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
+                        hintStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(Icons.numbers, color: Colors.black),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
@@ -347,7 +341,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: TextFormField(
@@ -356,16 +350,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         labelText: 'First Name',
                         hintText: 'Enter first name',
                         labelStyle: TextStyle(color: Colors.grey),
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(Icons.person),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
+                        hintStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(Icons.person, color: Colors.black),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
@@ -378,7 +366,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: TextFormField(
@@ -387,16 +375,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         labelText: 'Last Name',
                         hintText: 'Enter your last name',
                         labelStyle: TextStyle(color: Colors.grey),
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(Icons.person),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
+                        hintStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(Icons.person, color: Colors.black),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
@@ -409,7 +391,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: TextFormField(
@@ -418,16 +400,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         labelText: 'Contact Number',
                         hintText: 'Enter your contact number',
                         labelStyle: TextStyle(color: Colors.grey),
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(Icons.phone),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
+                        hintStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(Icons.phone, color: Colors.black),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
@@ -440,7 +416,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: GestureDetector(
@@ -467,16 +443,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
                             labelText: 'Start Date',
                             hintText: 'Select start date',
                             labelStyle: TextStyle(color: Colors.grey),
-                            hintStyle: TextStyle(color: Colors.grey),
-                            prefixIcon: Icon(Icons.calendar_today),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
+                            hintStyle: TextStyle(color: Colors.black),
+                            prefixIcon:
+                                Icon(Icons.calendar_today, color: Colors.black),
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
                           ),
                         ),
                       ),
@@ -492,7 +463,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: DropdownButton<String>(
@@ -527,7 +498,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: DropdownButton<String>(
@@ -562,7 +533,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: GestureDetector(
@@ -590,16 +561,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
                             labelText: 'School Year',
                             hintText: 'Select school year',
                             labelStyle: TextStyle(color: Colors.grey),
-                            hintStyle: TextStyle(color: Colors.grey),
-                            prefixIcon: Icon(Icons.calendar_today),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
+                            hintStyle: TextStyle(color: Colors.black),
+                            prefixIcon:
+                                Icon(Icons.calendar_today, color: Colors.black),
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
                           ),
                         ),
                       ),
@@ -614,7 +580,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: TextFormField(
@@ -623,16 +589,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         labelText: 'Required Hours',
                         hintText: 'Enter required training hours',
                         labelStyle: TextStyle(color: Colors.grey),
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(Icons.lock_clock),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
+                        hintStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(Icons.lock_clock, color: Colors.black),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
@@ -645,7 +605,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: TextFormField(
@@ -655,15 +615,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         hintText: 'Enter your address',
                         labelStyle: TextStyle(color: Colors.grey),
                         hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(Icons.home),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
+                        prefixIcon: Icon(Icons.home, color: Colors.black),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
@@ -676,7 +630,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: TextFormField(
@@ -685,16 +639,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         labelText: 'Email',
                         hintText: 'Enter your email',
                         labelStyle: TextStyle(color: Colors.grey),
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(Icons.email),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
+                        hintStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(Icons.email, color: Colors.black),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
@@ -707,7 +655,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: TextFormField(
@@ -717,16 +665,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         labelText: 'Password',
                         hintText: 'Enter your password',
                         labelStyle: TextStyle(color: Colors.grey),
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(Icons.lock),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
+                        hintStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(Icons.lock, color: Colors.black),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
@@ -739,7 +681,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: TextFormField(
@@ -749,16 +691,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         labelText: 'Confirm Password',
                         hintText: 'Confirm your password',
                         labelStyle: TextStyle(color: Colors.grey),
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(Icons.lock),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
+                        hintStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(Icons.lock, color: Colors.black),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
@@ -785,7 +721,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       child: Text(
                         'Register',
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 76, 111, 200)),
                       ),
                     ),
                   ),

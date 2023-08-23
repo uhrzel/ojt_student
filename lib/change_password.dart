@@ -36,8 +36,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       'password': password,
     });
 
-
-
     if (response.statusCode == 200) {
       String responsebody = response.body;
 
@@ -128,7 +126,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: TextFormField(
@@ -137,6 +135,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       decoration: InputDecoration(
                         labelText: 'New Password',
                         hintText: 'Enter your new password',
+                        labelStyle: TextStyle(color: Colors.grey),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
@@ -147,7 +148,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: TextFormField(
@@ -156,6 +157,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       decoration: InputDecoration(
                         labelText: 'Confirm Password',
                         hintText: 'Confirm your new password',
+                        labelStyle: TextStyle(color: Colors.grey),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),

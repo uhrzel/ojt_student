@@ -288,18 +288,11 @@ class _TaskScreenState extends State<TaskScreen> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
+              decoration: BoxDecoration(color: Colors.teal),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundImage: AssetImage(
-                          'assets/images/student.png'), // Replace with actual user image
-                    ),
                     SizedBox(height: 10),
                     FutureBuilder<Map<String, dynamic>>(
                       future: _futureData,
@@ -319,44 +312,42 @@ class _TaskScreenState extends State<TaskScreen> {
                           return Column(
                             children: [
                               Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
+                                width: double
+                                    .infinity, // Set the width to the maximum available width
+
+                                padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: Colors.teal,
                                   borderRadius: BorderRadius.circular(8),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
+                                      color: Colors.black.withOpacity(0.3),
                                       blurRadius: 3,
                                       offset: Offset(0, 2),
                                     ),
                                   ],
                                 ),
-                                child: Text(
-                                  '$firstname $lastname',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 20),
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      blurRadius: 3,
-                                      offset: Offset(0, 2),
+
+                                child: Column(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: Colors.blueAccent[100],
+                                      radius: 30,
+                                      backgroundImage: AssetImage(
+                                          'assets/images/student.png'), // Replace with actual user image
+                                    ),
+                                    Text(
+                                      '$firstname $lastname',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      '$userEmail',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16),
                                     ),
                                   ],
-                                ),
-                                child: Text(
-                                  '$userEmail',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 16),
                                 ),
                               ),
                             ],
@@ -368,18 +359,11 @@ class _TaskScreenState extends State<TaskScreen> {
                 ),
               ),
             ),
-            _buildListTile('Home', () {
+            _buildListTile('Home', Icons.home, 16, () {
               Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => DashboardScreen(
-                          userId: widget.userId,
-                        )),
-              );
               // Navigate to Home screen
             }),
-            _buildListTile('Attendance', () {
+            _buildListTile('Attendance', Icons.calendar_today, 16, () {
               Navigator.pop(context);
               Navigator.push(
                 context,
@@ -389,7 +373,7 @@ class _TaskScreenState extends State<TaskScreen> {
               );
               // Navigate to Attendance screen
             }),
-            _buildListTile('Task', () {
+            _buildListTile('Task', Icons.assignment, 16, () {
               Navigator.pop(context);
               Navigator.push(
                 context,
@@ -400,17 +384,18 @@ class _TaskScreenState extends State<TaskScreen> {
               );
               // Navigate to Task screen
             }),
-            _buildListTile('Organization', () {
+            _buildListTile('Organization', Icons.school_outlined, 16, () {
               Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        OrganizationScreen(userId: widget.userId)),
+                    builder: (context) => OrganizationScreen(
+                          userId: widget.userId,
+                        )),
               );
               // Navigate to Organization screen
             }),
-            _buildListTile('Logout', () {
+            _buildListTile('Logout', Icons.login_outlined, 16, () {
               Navigator.pop(context);
               Navigator.push(
                 context,
@@ -478,7 +463,8 @@ class _TaskScreenState extends State<TaskScreen> {
     );
   }
 
-  Widget _buildListTile(String title, VoidCallback onTap) {
+  Widget _buildListTile(
+      String title, IconData iconData, double fontSize, VoidCallback onTap) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
       child: Card(
@@ -487,7 +473,14 @@ class _TaskScreenState extends State<TaskScreen> {
           borderRadius: BorderRadius.circular(8),
         ),
         child: ListTile(
-          title: Center(child: Text(title)),
+          leading: Icon(
+            iconData,
+            color: Colors.black,
+          ), // Add the icon as the leading widget
+          title: Text(
+            title,
+            style: TextStyle(fontSize: fontSize), // Set the font size
+          ), // Display the title without Center widget
           onTap: onTap,
         ),
       ),

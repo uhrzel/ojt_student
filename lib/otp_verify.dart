@@ -122,7 +122,7 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: TextFormField(
@@ -130,6 +130,9 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
                       decoration: InputDecoration(
                         labelText: 'OTP',
                         hintText: 'Enter the OTP',
+                        labelStyle: TextStyle(color: Colors.grey),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),

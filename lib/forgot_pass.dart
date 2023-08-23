@@ -97,14 +97,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Padding background color
+                      color: Colors.teal, // Padding background color
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: TextFormField(
                       controller: emailController,
                       decoration: InputDecoration(
                         labelText: 'Email',
+                        labelStyle: TextStyle(color: Colors.grey),
                         hintText: 'Enter your email',
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),

@@ -106,16 +106,19 @@ class _VerificationPageState extends State<VerificationPage> {
                   horizontal: 20,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white, // Padding background color
+                  color: Colors.teal, // Padding background color
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: TextField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    labelText: 'Enter your email',
-                    border: OutlineInputBorder(),
-                  ),
+                      labelText: 'Email',
+                      hintText: 'Enter your email',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      labelStyle: TextStyle(color: Colors.black)),
                 ),
               ),
               SizedBox(height: 20),
@@ -125,7 +128,7 @@ class _VerificationPageState extends State<VerificationPage> {
                   horizontal: 20,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white, // Padding background color
+                  color: Colors.teal, // Padding background color
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: TextField(
@@ -133,9 +136,13 @@ class _VerificationPageState extends State<VerificationPage> {
                   keyboardType:
                       TextInputType.number, // Specify the keyboard type for OTP
                   decoration: InputDecoration(
-                    labelText: 'Enter OTP', // Update the label
-                    border: OutlineInputBorder(),
-                  ),
+                      labelText: 'OTP',
+                      hintText: 'Enter your OTP',
+                      hintStyle:
+                          TextStyle(color: Colors.grey), // Update the label
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      labelStyle: TextStyle(color: Colors.black)),
                 ),
               ),
               SizedBox(
