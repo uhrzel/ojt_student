@@ -17,20 +17,16 @@ Or `git clone repository link`.
 
 ## I CLONE IT HOW DO I SET UP?
 
-```
 - Make sure you have internet connection.
 - Just open your Visual Studio and browse the project you clone and using USB Cable connect you physical device and turned on the`USB Debugging Mode`.
 - Open you Xampp Server and press the start button for Apache and MySQL.
 - Run you flutter app using `Flutter run` or `Flutter run --no-sound-null-safety` in terminal here is `Visual Studio`
-```
 
 ## HOW TO SEE THE API REPOSITORY OF THIS PROJECT?
 
 Just navigate to this Link:
 
-```
 https://github.com/uhrzel/ojt_rms.git
-```
 
 ## LANGUAGES AND FRAMEWORKS
 
