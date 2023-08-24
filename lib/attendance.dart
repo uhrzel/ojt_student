@@ -15,6 +15,8 @@ import 'package:intl/intl.dart'; // Import the intl package
 class AttendanceScreen extends StatelessWidget {
   late Future<Map<String, dynamic>> _futureData;
   final int userId; // Add userId parameter
+  Stream<DateTime> TimeStream =
+      Stream.periodic(Duration(seconds: 1), (_) => DateTime.now());
 
   AttendanceScreen({required this.userId});
   // Constructor
@@ -32,6 +34,8 @@ class AttendanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _futureData = fetchData(userId); // Initialize _futureData
+    Stream<DateTime> timeStream =
+        Stream.periodic(Duration(seconds: 1), (_) => DateTime.now());
 
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 76, 111, 200),
@@ -196,20 +200,38 @@ class AttendanceScreen extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(width: 20),
+                SizedBox(width: 10),
                 Icon(
                   Icons.access_time,
                   size: 30,
                   color: Colors.white,
                 ),
                 SizedBox(width: 10),
-                Text(
-                  'Time: ${DateFormat('hh:mm a').format(DateTime.now())}',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                StreamBuilder<DateTime>(
+                  stream: TimeStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text(
+                        'Error loading date and time',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          Text(
+                            'Time: ${DateFormat('hh:mm:ss a').format(snapshot.data!)}', // Format includes time with seconds
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  },
                 ),
               ],
             ),
@@ -229,6 +251,7 @@ class AttendanceScreen extends StatelessWidget {
                 final attendanceList = snapshot.data?['attendance'] ?? [];
                 final firstname = snapshot.data?['first_name'];
                 final lastname = snapshot.data?['last_name'];
+
                 return Expanded(
                   child: SingleChildScrollView(
                     child: Column(
@@ -255,6 +278,15 @@ class AttendanceScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Text(
+                                  '${attendanceList[index]['attendance_log']} Attendance',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
                                 Text(
                                   '$firstname $lastname',
                                   style: TextStyle(

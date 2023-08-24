@@ -28,6 +28,12 @@ Just navigate to this Link:
 
 https://github.com/uhrzel/ojt_rms.git
 
+# Things that I haven't implemented yet
+
+- [ ] Search field for student status of attendance are still not available.
+- [ ] Make UI Presentable
+- [x] The app will work even though it is still in development.
+
 ## LANGUAGES AND FRAMEWORKS
 
 - DART
