@@ -10,6 +10,7 @@ import 'package:ojt_student/task.dart';
 import 'package:ojt_student/attendance_scanner_morning.dart';
 import 'package:ojt_student/attendance_scanner_afternoon.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart'; // Import the intl package
 
 class AttendanceScreen extends StatelessWidget {
   late Future<Map<String, dynamic>> _futureData;
@@ -164,6 +165,55 @@ class AttendanceScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
+          Container(
+            padding: EdgeInsets.all(20),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.teal, // Background color
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.calendar_today,
+                  size: 30,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 10),
+                Text(
+                  'Date: ${DateFormat('yyyy-MM-dd').format(DateTime.now())}',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(width: 20),
+                Icon(
+                  Icons.access_time,
+                  size: 30,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 10),
+                Text(
+                  'Time: ${DateFormat('hh:mm a').format(DateTime.now())}',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
           FutureBuilder<Map<String, dynamic>>(
             future: _futureData,
             builder: (context, snapshot) {
