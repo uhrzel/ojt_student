@@ -46,8 +46,8 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreenAfternoon> {
         message = 'Attendance Time In Success';
       } else if (response.body.contains('Attendance Time Out Success')) {
         message = 'Attendance Time Out Success';
-      } else if (response.body.contains('Attendance Already Checked Out')) {
-        message = 'Attendance Already Checked Out';
+      } else if (response.body.contains('Attendance Already Checked')) {
+        message = 'Attendance Already Checked';
       } else {
         message = 'Attendance Action Failed';
       }
