@@ -28,7 +28,7 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreenMorning> {
 
     final url = Uri.parse(
       'http://192.168.254.159/ojt_rms/student/attendance_morning_create.php' +
-          '?attendance_log=Afternoon' +
+          '?attendance_log=Morning' +
           '&attendance_date=${qrDataMap['attendance_date']}' +
           '&attendance_time=${qrDataMap['attendance_time']}' +
           '&coordinator_id=${qrDataMap['coordinator_id']}' +
