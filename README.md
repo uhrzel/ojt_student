@@ -4,7 +4,7 @@
 
 ## OJT TRACKER APP
 
-<img src="https://github.com/uhrzel/ojt_student/blob/main/assets/images/img_readme.png" alt="OJT TRACKER APP "  >
+<img src="https://github.com/uhrzel/ojt_student/blob/main/assets/images/img_readme.png" alt="logo" width="200" height="200" >
 
 ## NOTES
 
