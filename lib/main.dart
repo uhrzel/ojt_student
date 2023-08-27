@@ -182,13 +182,19 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         SizedBox(height: 50),
                         Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 20,
-                          ),
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
                           decoration: BoxDecoration(
-                            color: Colors.teal,
-                            borderRadius: BorderRadius.circular(10.0),
+                            color: Color.fromARGB(
+                                255, 58, 88, 165), // A slightly darker shade
+                            borderRadius: BorderRadius.circular(12.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(0, 2),
+                                blurRadius: 4,
+                              ),
+                            ],
                           ),
                           child: TextFormField(
                             controller: emailController,
@@ -198,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                               labelText: 'Email',
                               prefixIcon: Icon(
                                 Icons.email,
-                                color: Colors.black,
+                                color: Colors.grey,
                               ),
                               labelStyle: TextStyle(color: Colors.grey),
                               border: InputBorder.none,
@@ -206,15 +212,21 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 16),
+
                         Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 20,
-                          ),
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
                           decoration: BoxDecoration(
-                            color: Colors.teal,
-                            borderRadius: BorderRadius.circular(10.0),
+                            color: Color.fromARGB(
+                                255, 58, 88, 165), // A slightly darker shade
+                            borderRadius: BorderRadius.circular(12.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(0, 2),
+                                blurRadius: 4,
+                              ),
+                            ],
                           ),
                           child: TextFormField(
                             controller: passwordController,
@@ -225,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                               labelText: 'Password',
                               prefixIcon: Icon(
                                 Icons.lock,
-                                color: Colors.black,
+                                color: Colors.grey,
                               ),
                               labelStyle: TextStyle(color: Colors.grey),
                               border: InputBorder.none,

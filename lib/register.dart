@@ -1,5 +1,4 @@
 import 'dart:convert';
-// YearPicker is available in the Cupertino library
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -311,13 +310,18 @@ class _RegistrationFormState extends State<RegistrationForm> {
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: TextFormField(
                       controller: _studentIdNumberController,
@@ -326,23 +330,25 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         hintText: 'Enter your ID Number',
                         labelStyle: TextStyle(color: Colors.grey),
                         hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(Icons.numbers, color: Colors.black),
+                        prefixIcon: Icon(Icons.numbers, color: Colors.grey),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: TextFormField(
                       controller: _firstNameController,
@@ -351,23 +357,25 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         hintText: 'Enter first name',
                         labelStyle: TextStyle(color: Colors.grey),
                         hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(Icons.person, color: Colors.black),
+                        prefixIcon: Icon(Icons.person, color: Colors.grey),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal,
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: TextFormField(
                       controller: _lastNameController,
@@ -376,23 +384,25 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         hintText: 'Enter your last name',
                         labelStyle: TextStyle(color: Colors.grey),
                         hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(Icons.person, color: Colors.black),
+                        prefixIcon: Icon(Icons.person, color: Colors.grey),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: TextFormField(
                       controller: _contactNumberController,
@@ -401,23 +411,25 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         hintText: 'Enter your contact number',
                         labelStyle: TextStyle(color: Colors.grey),
                         hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(Icons.phone, color: Colors.black),
+                        prefixIcon: Icon(Icons.phone, color: Colors.grey),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: GestureDetector(
                       onTap: () async {
@@ -445,7 +457,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                             labelStyle: TextStyle(color: Colors.grey),
                             hintStyle: TextStyle(color: Colors.black),
                             prefixIcon:
-                                Icon(Icons.calendar_today, color: Colors.black),
+                                Icon(Icons.calendar_today, color: Colors.grey),
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                           ),
@@ -453,18 +465,19 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Container(
-                    height: 50, // Set a fixed height for the dropdown container
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: DropdownButton<String>(
                       value: selectedCourse,
@@ -477,29 +490,59 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       items: courseCodes.map((courseCode) {
                         return DropdownMenuItem<String>(
                           value: courseCode,
-                          child: Text(courseCode),
+                          child: Row(
+                            // Use Row to align icon and text horizontally
+                            children: [
+                              Icon(Icons.list_rounded,
+                                  color: Colors.grey), // Add your icon here
+                              SizedBox(
+                                  width:
+                                      8), // Add some spacing between icon and text
+                              Text(courseCode),
+                            ],
+                          ),
                         );
                       }).toList(),
                       isExpanded: true, // Allow dropdown to expand
-                      icon: Icon(Icons.arrow_drop_down), // Add dropdown icon
+                      icon: Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.black,
+                      ), // Add dropdown icon
                       underline: SizedBox(), // Remove default underline
                       style: TextStyle(
                           color: Colors.black), // Customize text color
-                      hint: Text('Select your course'), // Add a default hint
+                      hint: Padding(
+                        padding: EdgeInsets.only(left: 8), // Add left padding
+                        child: Row(
+                          // Use Row to align icon and text horizontally
+                          children: [
+                            Icon(Icons.list_rounded,
+                                color: Colors.grey), // Add your icon here
+                            SizedBox(
+                                width:
+                                    8), // Add some spacing between icon and text
+                            Text(
+                              'Select your Course',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
                   ),
                   Container(
-                    height: 50, // Set a fixed height for the dropdown container
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: DropdownButton<String>(
                       value: selectedOrganization,
@@ -509,32 +552,63 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           _organizationController.text = value;
                         });
                       },
-                      items: organizationName.map((organizationame) {
+                      items: organizationName.map((organizationName) {
                         return DropdownMenuItem<String>(
-                          value: organizationame,
-                          child: Text(organizationame),
+                          value: organizationName,
+                          child: Row(
+                            // Use Row to align icon and text horizontally
+                            children: [
+                              Icon(Icons.business,
+                                  color: Colors.grey), // Add your icon here
+                              SizedBox(
+                                  width:
+                                      8), // Add some spacing between icon and text
+                              Text(organizationName),
+                            ],
+                          ),
                         );
                       }).toList(),
                       isExpanded: true, // Allow dropdown to expand
-                      icon: Icon(Icons.arrow_drop_down), // Add dropdown icon
+                      icon: Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.black,
+                      ), // Add dropdown icon
                       underline: SizedBox(), // Remove default underline
                       style: TextStyle(
-                          color: Colors.black), // Customize text color
-                      hint: Text(
-                          'Select your Organization'), // Add a default hint
+                        color: Colors.black, // Customize text color
+                      ),
+                      hint: Padding(
+                        padding: EdgeInsets.only(left: 8), // Add left padding
+                        child: Row(
+                          // Use Row to align icon and text horizontally
+                          children: [
+                            Icon(Icons.business,
+                                color: Colors.grey), // Add your icon here
+                            SizedBox(
+                                width:
+                                    8), // Add some spacing between icon and text
+                            Text(
+                              'Select your organization',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: GestureDetector(
                       onTap: () async {
@@ -563,7 +637,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                             labelStyle: TextStyle(color: Colors.grey),
                             hintStyle: TextStyle(color: Colors.black),
                             prefixIcon:
-                                Icon(Icons.calendar_today, color: Colors.black),
+                                Icon(Icons.calendar_today, color: Colors.grey),
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                           ),
@@ -571,17 +645,19 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: TextFormField(
                       controller: _requiredHoursController,
@@ -590,23 +666,25 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         hintText: 'Enter required training hours',
                         labelStyle: TextStyle(color: Colors.grey),
                         hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(Icons.lock_clock, color: Colors.black),
+                        prefixIcon: Icon(Icons.lock_clock, color: Colors.grey),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: TextFormField(
                       controller: _addressController,
@@ -614,24 +692,26 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         labelText: 'Address',
                         hintText: 'Enter your address',
                         labelStyle: TextStyle(color: Colors.grey),
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(Icons.home, color: Colors.black),
+                        hintStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(Icons.home, color: Colors.grey),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: TextFormField(
                       controller: _emailController,
@@ -640,23 +720,25 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         hintText: 'Enter your email',
                         labelStyle: TextStyle(color: Colors.grey),
                         hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(Icons.email, color: Colors.black),
+                        prefixIcon: Icon(Icons.email, color: Colors.grey),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: TextFormField(
                       controller: _passwordController,
@@ -666,23 +748,25 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         hintText: 'Enter your password',
                         labelStyle: TextStyle(color: Colors.grey),
                         hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(Icons.lock, color: Colors.black),
+                        prefixIcon: Icon(Icons.lock, color: Colors.grey),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                     child: TextFormField(
                       controller: _confirmPasswordController,
@@ -692,25 +776,25 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         hintText: 'Confirm your password',
                         labelStyle: TextStyle(color: Colors.grey),
                         hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(Icons.lock, color: Colors.black),
+                        prefixIcon: Icon(Icons.lock, color: Colors.grey),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 16,
+                    height: 10,
                   ),
                   Container(
-                    width: 500,
-                    height: 60, // Set the desired width
+                    width: 400,
+                    height: 50,
                     padding: EdgeInsets.symmetric(
                       vertical: 10,
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: TextButton(
                       onPressed: _isRegistering ? null : _registerUser,

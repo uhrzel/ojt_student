@@ -121,45 +121,61 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
-                    child: TextFormField(
-                      controller: passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'New Password',
-                        hintText: 'Enter your new password',
-                        labelStyle: TextStyle(color: Colors.grey),
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8), // Add left padding
+                      child: TextField(
+                        controller: passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: 'New Password',
+                          hintText: 'Enter your new password',
+                          labelStyle: TextStyle(color: Colors.grey),
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
-                    child: TextFormField(
-                      controller: confirmPasswordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Confirm Password',
-                        hintText: 'Confirm your new password',
-                        labelStyle: TextStyle(color: Colors.grey),
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8), // Add left padding
+
+                      child: TextField(
+                        controller: confirmPasswordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: 'Confirm Password',
+                          hintText: 'Confirm your new password',
+                          labelStyle: TextStyle(color: Colors.grey),
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                        ),
                       ),
                     ),
                   ),

@@ -12,13 +12,26 @@ import 'package:ojt_student/attendance_scanner_afternoon.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart'; // Import the intl package
 
-class AttendanceScreen extends StatelessWidget {
-  late Future<Map<String, dynamic>> _futureData;
+class AttendanceScreen extends StatefulWidget {
   final int userId; // Add userId parameter
+  AttendanceScreen({required this.userId});
+
+  @override
+  _AttendanceScreenState createState() =>
+      _AttendanceScreenState(userId: userId);
+}
+
+class _AttendanceScreenState extends State<AttendanceScreen> {
+  bool _isSearching = false; // To track whether the search field is active
+  final int userId; // Add userId parameter
+  late Future<Map<String, dynamic>> _futureData;
   Stream<DateTime> TimeStream =
       Stream.periodic(Duration(seconds: 1), (_) => DateTime.now());
+  TextEditingController searchController = TextEditingController();
+  String _searchText = ''; // Add this at the beginning of your class
+// Define this at the beginning of your class
 
-  AttendanceScreen({required this.userId});
+  _AttendanceScreenState({required this.userId});
   // Constructor
   Future<Map<String, dynamic>> fetchData(int userId) async {
     final response = await http.get(Uri.parse(
@@ -41,6 +54,50 @@ class AttendanceScreen extends StatelessWidget {
       backgroundColor: Color.fromARGB(255, 76, 111, 200),
       appBar: AppBar(
         title: Text('Attendance'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(
+                right: 16.0), // Adjust the padding as needed
+            child: IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                setState(() {
+                  _isSearching = !_isSearching; // Toggle search field state
+                  print("_isSearching: $_isSearching"); // Add this line
+                });
+              },
+            ),
+          ),
+          if (_isSearching)
+            Container(
+              alignment:
+                  Alignment.centerRight, // Align the TextField to the right
+              child: SizedBox(
+                width: 150, // Set the desired width for the TextField
+                child: TextField(
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Search by Date',
+                    border: InputBorder.none,
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: () {
+                        setState(() {
+                          _isSearching = false;
+                          searchController.clear();
+                        });
+                      },
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _searchText = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -68,6 +125,7 @@ class AttendanceScreen extends StatelessWidget {
                           final userEmail = snapshot.data?['email'];
                           final firstname = snapshot.data?['first_name'];
                           final lastname = snapshot.data?['last_name'];
+
                           return Column(
                             children: [
                               Container(
@@ -247,17 +305,30 @@ class AttendanceScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 );
               } else {
-                // Extract attendance list from snapshot data
                 final attendanceList = snapshot.data?['attendance'] ?? [];
                 final firstname = snapshot.data?['first_name'];
                 final lastname = snapshot.data?['last_name'];
+
+                final filteredAttendanceList =
+                    attendanceList.where((attendance) {
+                  final date = attendance['attendance_date']
+                      .toString()
+                      .toLowerCase(); // Convert to lowercase
+                  final searchText = _searchText
+                      .toLowerCase(); // Convert search text to lowercase
+
+                  print('Date from list: $date');
+                  print('Search text: $_searchText');
+
+                  return date.contains(searchText);
+                }).toList();
 
                 return Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
                         for (int index = 0;
-                            index < attendanceList.length;
+                            index < filteredAttendanceList.length;
                             index++)
                           Container(
                             margin: EdgeInsets.symmetric(

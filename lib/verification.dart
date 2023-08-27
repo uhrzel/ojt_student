@@ -101,48 +101,65 @@ class _VerificationPageState extends State<VerificationPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 20,
-                ),
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 decoration: BoxDecoration(
-                  color: Colors.teal, // Padding background color
-                  borderRadius: BorderRadius.circular(10.0),
+                  color: Color.fromARGB(
+                      255, 58, 88, 165), // A slightly darker shade
+                  borderRadius: BorderRadius.circular(12.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 2),
+                      blurRadius: 4,
+                    ),
+                  ],
                 ),
-                child: TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      labelText: 'Email',
-                      hintText: 'Enter your email',
-                      hintStyle: TextStyle(color: Colors.grey),
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      labelStyle: TextStyle(color: Colors.black)),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 8), // Add left padding
+
+                  child: TextField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                        labelText: 'Email',
+                        hintText: 'Enter your email',
+                        hintStyle: TextStyle(color: Colors.grey),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        labelStyle: TextStyle(color: Colors.black)),
+                  ),
                 ),
               ),
-              SizedBox(height: 20),
               Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 20,
-                ),
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 decoration: BoxDecoration(
-                  color: Colors.teal, // Padding background color
-                  borderRadius: BorderRadius.circular(10.0),
+                  color: Color.fromARGB(
+                      255, 58, 88, 165), // A slightly darker shade
+                  borderRadius: BorderRadius.circular(12.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 2),
+                      blurRadius: 4,
+                    ),
+                  ],
                 ),
-                child: TextField(
-                  controller: _otpController,
-                  keyboardType:
-                      TextInputType.number, // Specify the keyboard type for OTP
-                  decoration: InputDecoration(
-                      labelText: 'OTP',
-                      hintText: 'Enter your OTP',
-                      hintStyle:
-                          TextStyle(color: Colors.grey), // Update the label
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      labelStyle: TextStyle(color: Colors.black)),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 8), // Add left padding
+
+                  child: TextField(
+                    controller: _otpController,
+                    keyboardType: TextInputType
+                        .number, // Specify the keyboard type for OTP
+                    decoration: InputDecoration(
+                        labelText: 'OTP',
+                        hintText: 'Enter your OTP',
+                        hintStyle:
+                            TextStyle(color: Colors.grey), // Update the label
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        labelStyle: TextStyle(color: Colors.black)),
+                  ),
                 ),
               ),
               SizedBox(

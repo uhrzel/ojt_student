@@ -112,27 +112,36 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Enter the OTP sent to ${widget.email}',
+                    'Enter the OTP sent to: ${widget.email}',
                     style: TextStyle(fontSize: 18),
                   ),
                   SizedBox(height: 20),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.teal, // Padding background color
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(
+                          255, 58, 88, 165), // A slightly darker shade
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
-                    child: TextFormField(
-                      controller: otpController,
-                      decoration: InputDecoration(
-                        labelText: 'OTP',
-                        hintText: 'Enter the OTP',
-                        labelStyle: TextStyle(color: Colors.grey),
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8), // Add left padding
+
+                      child: TextField(
+                        controller: otpController,
+                        decoration: InputDecoration(
+                          labelText: 'OTP',
+                          hintText: 'Enter the OTP',
+                          labelStyle: TextStyle(color: Colors.grey),
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                        ),
                       ),
                     ),
                   ),
