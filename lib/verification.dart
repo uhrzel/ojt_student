@@ -20,7 +20,8 @@ class _VerificationPageState extends State<VerificationPage> {
     String otp = _otpController.text;
 
     final response = await http.post(
-      Uri.parse('http://192.168.254.159/ojt_rms/student/verify_account.php'),
+      Uri.parse(
+          'http://192.168.254.159:8080/ojt_rms/student/verify_account.php'),
       body: {'email': email, 'otp': otp},
     );
 

@@ -29,8 +29,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       _isChangingPassword = true;
     });
 
-    final url =
-        Uri.parse('http://192.168.254.159/ojt_rms/student/change_password.php');
+    final url = Uri.parse(
+        'http://192.168.254.159:8080/ojt_rms/student/change_password.php');
     final response = await http.post(url, body: {
       'user_id': widget.responseBody,
       'password': password,

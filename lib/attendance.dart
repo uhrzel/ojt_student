@@ -35,7 +35,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   // Constructor
   Future<Map<String, dynamic>> fetchData(int userId) async {
     final response = await http.get(Uri.parse(
-        'http://192.168.254.159/ojt_rms/student/index.php?user_id=$userId'));
+        'http://192.168.254.159:8080/ojt_rms/student/index.php?user_id=$userId'));
 
     if (response.statusCode == 200) {
       return Map<String, dynamic>.from(json.decode(response.body));

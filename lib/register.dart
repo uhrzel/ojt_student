@@ -146,7 +146,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
     // Call the API to register the user
     final response = await http.post(
-      Uri.parse('http://192.168.254.159/ojt_rms/student/signup.php'),
+      Uri.parse('http://192.168.254.159:8080/ojt_rms/student/signup.php'),
       body: {
         'student_id_number': studentIdNumber,
         'first_name': firstName,
@@ -213,7 +213,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
     try {
       final response = await http.get(
         Uri.parse(
-            'http://192.168.254.159/ojt_rms/student/fetch_courseCode.php'),
+            'http://192.168.254.159:8080/ojt_rms/student/fetch_courseCode.php'),
       );
 
       if (response.statusCode == 200) {
@@ -235,7 +235,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
     try {
       final response = await http.get(
         Uri.parse(
-            'http://192.168.254.159/ojt_rms/student/fetch_organizationName.php'),
+            'http://192.168.254.159:8080/ojt_rms/student/fetch_organizationName.php'),
       );
 
       if (response.statusCode == 200) {

@@ -20,7 +20,8 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
       _isVerifying = true;
     });
 
-    final url = Uri.parse('http://192.168.254.159/ojt_rms/student/otp.php');
+    final url =
+        Uri.parse('http://192.168.254.159:8080/ojt_rms/student/otp.php');
     final response = await http.post(url, body: {
       'otp': otp,
       'email': email,

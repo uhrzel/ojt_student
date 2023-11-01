@@ -27,7 +27,7 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreenMorning> {
     Map<String, String> qrDataMap = Uri.splitQueryString(decodedData);
 
     final url = Uri.parse(
-      'http://192.168.254.159/ojt_rms/student/attendance_morning_create.php' +
+      'http://192.168.254.159:8080/ojt_rms/student/attendance_morning_create.php' +
           '?attendance_log=Morning' +
           '&attendance_date=${qrDataMap['attendance_date']}' +
           '&attendance_time=${qrDataMap['attendance_time']}' +
